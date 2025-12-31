@@ -24,7 +24,7 @@ export interface PluginHandler {
   /**
    * 处理生成请求的主函数
    */
-  handle: (context: PluginContext) => Promise<NextResponse>;
+  handle: (context: PluginContext) => Promise<Response>;
 }
 
 /**
