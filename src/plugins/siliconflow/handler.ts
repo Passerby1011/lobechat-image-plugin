@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createErrorResponse, PluginErrorType } from "@lobehub/chat-plugin-sdk";
-import axios from "axios";
 import { PluginHandler, PluginContext } from "@/core/types";
 import { saveImageToStorage } from "@/shared/storage";
 import { formatImageMarkdown } from "@/shared/markdown";
@@ -39,18 +38,21 @@ export const siliconflowHandler: PluginHandler = {
       if (seed) requestBody.seed = seed;
       if (num_inference_steps) requestBody.num_inference_steps = num_inference_steps;
 
-      const response = await axios.post(
-        `${BASE_URL}/images/generations`,
-        requestBody,
-        {
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URL}/images/generations`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody)
+      });
 
-      const respData = response.data;
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw { response: { data: errorData, status: response.status } };
+      }
+
+      const respData = await response.json();
       const imageUrls: string[] = [];
 
       // 遍历结果并持久化

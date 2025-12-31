@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createErrorResponse, PluginErrorType } from "@lobehub/chat-plugin-sdk";
-import axios from "axios";
 import * as CryptoJS from "crypto-js";
 import { PluginHandler, PluginContext } from "@/core/types";
 import { saveImageToStorage } from "@/shared/storage";
@@ -59,18 +58,29 @@ export const hunyuanHandler: PluginHandler = {
 
     try {
       const payload = JSON.stringify({ Prompt, NegativePrompt, Style, Resolution, Num, Clarity, ContentImage, Revise, Seed });
-      const headers = generateTencentCloudHeaders(TENCENT_SECRET_ID, TENCENT_SECRET_KEY, "SubmitHunyuanImageJob", payload);
+      const headers: any = generateTencentCloudHeaders(TENCENT_SECRET_ID, TENCENT_SECRET_KEY, "SubmitHunyuanImageJob", payload);
       
-      const submitResponse = await axios.post(`https://${HOST}`, payload, { headers });
-      const jobId = submitResponse.data.Response?.JobId;
-      if (!jobId) throw new Error(submitResponse.data.Response?.Error?.Message || "Failed to submit job");
+      const submitResponse = await fetch(`https://${HOST}`, {
+        method: 'POST',
+        headers,
+        body: payload
+      });
+
+      const submitResult = await submitResponse.json();
+      const jobId = submitResult.Response?.JobId;
+      if (!jobId) throw new Error(submitResult.Response?.Error?.Message || "Failed to submit job");
 
       let queryData: any;
       do {
         const queryPayload = JSON.stringify({ JobId: jobId });
-        const queryHeaders = generateTencentCloudHeaders(TENCENT_SECRET_ID, TENCENT_SECRET_KEY, "QueryHunyuanImageJob", queryPayload);
-        const queryResponse = await axios.post(`https://${HOST}`, queryPayload, { headers: queryHeaders });
-        queryData = queryResponse.data.Response;
+        const queryHeaders: any = generateTencentCloudHeaders(TENCENT_SECRET_ID, TENCENT_SECRET_KEY, "QueryHunyuanImageJob", queryPayload);
+        const queryResponse = await fetch(`https://${HOST}`, {
+          method: 'POST',
+          headers: queryHeaders,
+          body: queryPayload
+        });
+        const queryResult = await queryResponse.json();
+        queryData = queryResult.Response;
         if (queryData.JobStatusCode === '3') break; // FAILED
         if (queryData.JobStatusCode !== '2') { // 2 = SUCCEEDED
           await new Promise(r => setTimeout(r, 1000));

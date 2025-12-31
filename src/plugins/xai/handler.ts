@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createErrorResponse, PluginErrorType } from "@lobehub/chat-plugin-sdk";
-import axios from "axios";
 import { PluginHandler, PluginContext } from "@/core/types";
 import { saveImageToStorage } from "@/shared/storage";
 import { formatImageMarkdown } from "@/shared/markdown";
@@ -27,23 +26,26 @@ export const xaiHandler: PluginHandler = {
     }
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/images/generations`,
-        {
+      const response = await fetch(`${BASE_URL}/images/generations`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           model: model || "grok-2-image",
           prompt: prompt,
           n: n || 1,
           response_format: response_format
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+        })
+      });
 
-      const respData = response.data;
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw { response: { data: errorData, status: response.status } };
+      }
+
+      const respData = await response.json();
       const imageUrls: string[] = [];
 
       // 使用共享存储服务进行持久化

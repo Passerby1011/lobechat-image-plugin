@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createErrorResponse, PluginErrorType } from "@lobehub/chat-plugin-sdk";
-import axios from "axios";
 import { PluginHandler, PluginContext } from "@/core/types";
 import { saveImageToStorage } from "@/shared/storage";
 import { formatImageMarkdown } from "@/shared/markdown";
@@ -27,18 +26,21 @@ export const zhipuHandler: PluginHandler = {
     }
 
     try {
-      const response = await axios.post(
-        `${BASE_URL}/images/generations`,
-        { model, prompt, size, user_id },
-        {
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URL}/images/generations`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ model, prompt, size, user_id })
+      });
 
-      const respData = response.data;
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw { response: { data: errorData, status: response.status } };
+      }
+
+      const respData = await response.json();
       const imageUrls: string[] = [];
 
       for (const img of respData.data) {

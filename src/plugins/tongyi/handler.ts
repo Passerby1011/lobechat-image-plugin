@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { createErrorResponse, PluginErrorType } from "@lobehub/chat-plugin-sdk";
-import axios from "axios";
 import { PluginHandler, PluginContext } from "@/core/types";
 import { saveImageToStorage } from "@/shared/storage";
 import { formatImageMarkdown } from "@/shared/markdown";
@@ -30,31 +29,30 @@ export const tongyiHandler: PluginHandler = {
 
     try {
       // 1. 发起生成任务
-      const response = await axios.post(
-        `${BASE_URL}/services/aigc/text2image/image-synthesis`,
-        { model, input, parameters: requestParameters },
-        {
-          headers: {
-            'X-DashScope-Async': 'enable',
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          }
-        }
-      );
+      const response = await fetch(`${BASE_URL}/services/aigc/text2image/image-synthesis`, {
+        method: 'POST',
+        headers: {
+          'X-DashScope-Async': 'enable',
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ model, input, parameters: requestParameters })
+      });
 
-      if (response.status !== 200) {
+      if (!response.ok) {
         return NextResponse.json({ message: 'Failed to start image generation.' }, { status: response.status });
       }
 
-      const taskId = response.data.output.task_id;
+      const initialData = await response.json();
+      const taskId = initialData.output.task_id;
       let statusData: any;
 
       // 2. 轮询状态
       do {
-        const statusResponse = await axios.get(`${BASE_URL}/tasks/${taskId}`, {
+        const statusResponse = await fetch(`${BASE_URL}/tasks/${taskId}`, {
           headers: { Authorization: `Bearer ${apiKey}` },
         });
-        statusData = statusResponse.data;
+        statusData = await statusResponse.json();
         if (statusData.output.task_status === 'FAILED') break;
         if (statusData.output.task_status !== 'SUCCEEDED') {
           await new Promise((resolve) => setTimeout(resolve, 1000));

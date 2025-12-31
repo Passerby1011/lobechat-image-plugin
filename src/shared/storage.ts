@@ -1,6 +1,5 @@
 import { put } from "@vercel/blob";
 import { v4 as uuidv4 } from 'uuid';
-import axios from "axios";
 
 /**
  * 将图像持久化存储到 Vercel Blob
@@ -41,12 +40,14 @@ export async function saveImageToStorage(
       imageBuffer = Buffer.from(actualData, 'base64');
     } else {
       // 处理 URL 格式 - 先下载
-      const imageResponse = await axios.get(source, {
-        responseType: "arraybuffer",
-        timeout: 30000
+      const response = await fetch(source, {
+        signal: AbortSignal.timeout(30000)
       });
-      contentType = imageResponse.headers['content-type'] || 'image/jpeg';
-      imageBuffer = Buffer.from(imageResponse.data);
+      if (!response.ok) throw new Error(`Failed to fetch image: ${response.statusText}`);
+      
+      contentType = response.headers.get('content-type') || 'image/jpeg';
+      const arrayBuffer = await response.arrayBuffer();
+      imageBuffer = Buffer.from(arrayBuffer);
     }
 
     const fileExt = contentType.split('/').pop() || 'jpg';
