@@ -22,10 +22,6 @@ export interface PluginHandler {
   id: string;
   name: string;
   /**
-   * 获取插件的基础清单配置 (不含动态 URL)
-   */
-  getManifest: () => any;
-  /**
    * 处理生成请求的主函数
    */
   handle: (context: PluginContext) => Promise<Response>;

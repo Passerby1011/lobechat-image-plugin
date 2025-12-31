@@ -10,59 +10,6 @@ const BASE_URL = "https://api.x.ai/v1";
 export const xaiHandler: PluginHandler = {
   id: "xai-image",
   name: "xAI Image Generator",
-  getManifest: () => ({
-    "identifier": "xai-image",
-    "api": [
-      {
-        "url": "/api/generate",
-        "name": "generateImage",
-        "description": "Generate an image using xAI API",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "model": {
-              "type": "string",
-              "description": "Model name",
-              "default": "grok-2-image"
-            },
-            "prompt": {
-              "type": "string",
-              "description": "Image description"
-            },
-            "n": {
-              "type": "integer",
-              "description": "Number of images",
-              "default": 1
-            },
-            "response_format": {
-              "type": "string",
-              "description": "Response format",
-              "enum": ["url", "b64_json"],
-              "default": "url"
-            }
-          },
-          "required": ["prompt"]
-        }
-      }
-    ],
-    "meta": {
-      "avatar": "𝕏",
-      "description": "xAI Image Generator using Grok",
-      "tags": ["image", "xai", "grok"],
-      "title": "xAI 图像生成器"
-    },
-    "settings": {
-      "type": "object",
-      "required": ["XAI_API_KEY"],
-      "properties": {
-        "XAI_API_KEY": {
-          "type": "string",
-          "title": "xAI API Key"
-        }
-      }
-    },
-    "version": "1"
-  }),
   handle: async (ctx: PluginContext) => {
     const { body, settings } = ctx;
     const apiKey = settings.XAI_API_KEY;

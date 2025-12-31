@@ -1,0 +1,87 @@
+{
+  "identifier": "tongyi-image",
+  "api": [
+    {
+      "url": "https://lobechat-image-plugin-eight.vercel.app/api/tongyi-image/generate",
+      "name": "generateImage",
+      "description": "Generate an image based on the given prompt using Alibaba's Tongyi Wanxiang model",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "The model name to use for image generation",
+            "default": "wanx2.1-t2i-turbo",
+            "enum": [
+              "wanx2.1-t2i-turbo",
+              "wanx2.1-t2i-plus",
+              "wanx2.0-t2i-turbo"
+            ]
+          },
+          "input": {
+            "type": "object",
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "description": "Positive prompt describing elements and visual features desired in the generated image. Supports Chinese and English, up to 800 characters"
+              },
+              "negative_prompt": {
+                "type": "string",
+                "description": "Negative prompt describing elements you don't want in the image. Supports Chinese and English, up to 500 characters"
+              }
+            },
+            "required": ["prompt"]
+          },
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "size": {
+                "type": "string",
+                "description": "Resolution of the output image. Width and height should be between 768 and 1440 pixels, up to 2 million pixels total",
+                "default": "1024*1024"
+              },
+              "n": {
+                "type": "integer",
+                "description": "Number of images to generate, between 1 and 4",
+                "minimum": 1,
+                "maximum": 4,
+                "default": 1
+              },
+              "seed": {
+                "type": "integer",
+                "description": "Random seed to control generation randomness. Range: [0, 2147483647]",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "prompt_extend": {
+                "type": "boolean",
+                "description": "Whether to enable intelligent prompt rewriting for better results. Only affects positive prompts",
+                "default": true
+              }
+            }
+          }
+        },
+        "required": ["model","input"]
+      }
+    }
+  ],
+  "meta": {
+    "avatar": "🎉",
+    "description": "该插件利用阿里巴巴的通义万相模型，根据文本提示生成图像。",
+    "tags": ["image", "generator", "tongyi", "wanxiang", "alibaba"],
+    "title": "通义万相图像生成器"
+  },
+  "settings": {
+    "type": "object",
+    "required": ["ALIBABA_API_KEY"],
+    "properties": {
+      "ALIBABA_API_KEY": {
+        "type": "string",
+        "title": "Alibaba API Key",
+        "description": "用于使用阿里通义万相模型的API密钥"
+      }
+    }
+  },
+  "version": "1",
+  "systemRole": "该插件利用阿里巴巴的通义万象模型，根据文本提示生成图像。"
+}

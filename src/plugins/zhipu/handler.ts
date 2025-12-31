@@ -10,43 +10,6 @@ const BASE_URL = "https://open.bigmodel.cn/api/paas/v4";
 export const zhipuHandler: PluginHandler = {
   id: "zhipuai-image",
   name: "ZhipuAI Image Generator",
-  getManifest: () => ({
-    "identifier": "zhipuai-image",
-    "api": [
-      {
-        "url": "/api/generate",
-        "name": "generateImage",
-        "description": "智谱AI图像生成",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "model": {
-              "type": "string",
-              "enum": ["cogview-3-flash", "cogview-3", "cogview-3-plus"],
-              "default": "cogview-3-flash"
-            },
-            "prompt": { "type": "string" },
-            "size": { "type": "string", "default": "1024x1024" }
-          },
-          "required": ["prompt", "model"]
-        }
-      }
-    ],
-    "meta": {
-      "avatar": "🧠",
-      "description": "智谱AI CogView 图像生成器",
-      "tags": ["image", "zhipu", "cogview"],
-      "title": "智谱AI 图像生成器"
-    },
-    "settings": {
-      "type": "object",
-      "required": ["ZHIPUAI_API_KEY"],
-      "properties": {
-        "ZHIPUAI_API_KEY": { "type": "string", "title": "API Key" }
-      }
-    },
-    "version": "1"
-  }),
   handle: async (ctx: PluginContext) => {
     const { body, settings } = ctx;
     const apiKey = settings.ZHIPUAI_API_KEY;

@@ -47,57 +47,6 @@ function generateTencentCloudHeaders(secretId: string, secretKey: string, action
 export const hunyuanHandler: PluginHandler = {
   id: "tencent-hunyuan-image",
   name: "腾讯混元大模型图片生成器",
-  getManifest: () => ({
-    "identifier": "tencent-hunyuan-image",
-    "api": [
-      {
-        "url": "/api/generate",
-        "name": "generateImage",
-        "description": "使用腾讯混元大模型，根据文本提示生成图片",
-        "parameters": {
-          "type": "object",
-          "properties": {
-            "Prompt": {
-              "type": "string",
-              "description": "文本描述，推荐使用中文",
-              "minLength": 1
-            },
-            "NegativePrompt": {
-              "type": "string",
-              "description": "反向提示词"
-            },
-            "Style": {
-              "type": "string",
-              "description": "绘画风格",
-              "enum": ["riman", "shuimo", "monai", "bianping", "xiangsu", "ertonghuiben", "3dxuanran", "manhua", "heibaimanhua", "xieshi", "dongman", "bijiasuo", "saibopengke", "youhua", "masaike", "qinghuaci", "xinnianjianzhi", "xinnianhuayi"]
-            },
-            "Resolution": {
-              "type": "string",
-              "description": "生成图分辨率",
-              "enum": ["768:768", "768:1024", "1024:768", "1024:1024", "720:1280", "1280:720", "768:1280", "1280:768"],
-              "default": "1024:1024"
-            }
-          },
-          "required": ["Prompt"]
-        }
-      }
-    ],
-    "meta": {
-      "avatar": "🎨",
-      "description": "腾讯混元大模型图片生成器",
-      "tags": ["图片", "生成", "混元", "腾讯"],
-      "title": "腾讯混元大模型图片生成器"
-    },
-    "settings": {
-      "type": "object",
-      "required": ["TENCENT_SECRET_ID", "TENCENT_SECRET_KEY"],
-      "properties": {
-        "TENCENT_SECRET_ID": { "type": "string", "title": "Secret ID" },
-        "TENCENT_SECRET_KEY": { "type": "string", "title": "Secret Key" }
-      }
-    },
-    "version": "1"
-  }),
   handle: async (ctx: PluginContext) => {
     const { body, settings } = ctx;
     const { TENCENT_SECRET_ID, TENCENT_SECRET_KEY } = settings;

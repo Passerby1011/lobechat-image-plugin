@@ -13,13 +13,13 @@
 
 您可以直接将以下链接添加到 LobeChat 的自定义插件中：
 
-| 插件名称 | 标识符 | Manifest 链接 (部署后自动适配) |
+| 插件名称 | 标识符 | Manifest 链接 (部署后) |
 | :--- | :--- | :--- |
-| **SiliconFlow 图像生成** | `siliconflow-image` | `域名/siliconflow-image/manifest.json` |
-| **xAI (Grok) 图像生成** | `xai-image` | `域名/xai-image/manifest.json` |
-| **通义万相 (阿里)** | `tongyi-image` | `域名/tongyi-image/manifest.json` |
-| **腾讯混元生成** | `tencent-hunyuan-image` | `域名/tencent-hunyuan-image/manifest.json` |
-| **智谱 AI (CogView)** | `zhipuai-image` | `域名/zhipuai-image/manifest.json` |
+| **SiliconFlow 图像生成** | `siliconflow-image` | `https://your-domain.com/siliconflow-image/manifest.json` |
+| **xAI (Grok) 图像生成** | `xai-image` | `https://your-domain.com/xai-image/manifest.json` |
+| **通义万相 (阿里)** | `tongyi-image` | `https://your-domain.com/tongyi-image/manifest.json` |
+| **腾讯混元生成** | `tencent-hunyuan-image` | `https://your-domain.com/tencent-hunyuan-image/manifest.json` |
+| **智谱 AI (CogView)** | `zhipuai-image` | `https://your-domain.com/zhipuai-image/manifest.json` |
 
 ## 📸 效果展示 (示例)
 
