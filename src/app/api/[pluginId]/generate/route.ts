@@ -2,8 +2,6 @@ import { getPluginSettingsFromRequest } from "@lobehub/chat-plugin-sdk";
 import { NextResponse } from "next/server";
 import { pluginRegistry } from "@/plugins";
 
-export const runtime = "edge"; // 默认使用 Edge Runtime
-
 export async function POST(
   req: Request,
   { params }: { params: { pluginId: string } }

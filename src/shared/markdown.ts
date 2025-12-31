@@ -10,7 +10,7 @@ export interface MarkdownOptions {
 
 export function formatImageMarkdown(urls: string[], options: MarkdownOptions): string {
   let markdown = urls.map((url, index) => {
-    return `![Generated Image ${urls.length > 1 ? index + 1 : ''}](${url})`;
+    return `![${options.prompt}](${url})`;
   }).join('\n\n');
 
   markdown += `\n\n---`;
@@ -21,7 +21,7 @@ export function formatImageMarkdown(urls: string[], options: MarkdownOptions): s
   }
 
   if (options.model) {
-    markdown += `\n\n**模型**: \`${options.model}\``;
+    markdown += `\n\n**模型**: ${options.model}`;
   }
 
   if (options.extraInfo) {

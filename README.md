@@ -23,14 +23,13 @@
 
 ## 📸 效果展示 (示例)
 
-> **Prompt**: 一只在赛博朋克城市屋顶上喝咖啡的机械猫
-
-![Cyber Cat](https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1000)
+![一只在赛博朋克城市屋顶上喝咖啡的机械猫](https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1000)
 
 ---
-**提示词**: *一只在赛博朋克城市屋顶上喝咖啡的机械猫*
-**模型**: `black-forest-labs/FLUX.1-schnell`
-**状态**: ✅ 已持久化存储至 Vercel Blob
+
+**提示词**: 一只在赛博朋克城市屋顶上喝咖啡的机械猫
+**优化后提示词**: A mechanical cat drinking coffee on a rooftop in a cyberpunk city, high detail, neon lights, 8k resolution.
+**模型**: grok-2-image
 
 ## 🚀 部署指南
 
