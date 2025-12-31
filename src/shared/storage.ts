@@ -14,6 +14,12 @@ export async function saveImageToStorage(
   format: 'url' | 'b64_json',
   pluginId: string
 ): Promise<string> {
+  // 检查环境变量是否存在
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    console.warn(`[Storage] BLOB_READ_WRITE_TOKEN not found. Skipping persistence for ${pluginId}.`);
+    return format === 'url' ? source : '';
+  }
+
   const uniqueFilename = `${Date.now()}-${uuidv4().substring(0, 8)}`;
   let contentType = 'image/jpeg';
   let imageBuffer: Buffer;
