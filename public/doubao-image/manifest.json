@@ -1,0 +1,87 @@
+{
+  "identifier": "doubao-image",
+  "api": [
+    {
+      "url": "https://lobechat-image-plugin-eight.vercel.app/api/doubao-image/generate",
+      "name": "generateImage",
+      "description": "基于火山引擎豆包 (Doubao Seedream) 模型的图像生成与编辑能力。支持文生图、多图特征融合、连贯组图生成及自然语言图像编辑。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。'doubao-seedream-4-5-251128' 为最新旗舰模型；'doubao-seededit-3-0-i2i-250628' 为图像编辑模型。",
+            "default": "doubao-seedream-4-5-251128",
+            "enum": [
+              "doubao-seedream-4-5-251128",
+              "doubao-seedream-4-0-250828",
+              "doubao-seedream-3-0-t2i-250415",
+              "doubao-seededit-3-0-i2i-250628"
+            ]
+          },
+          "prompt": {
+            "type": "string",
+            "description": "提示词内容。描述想要生成的画面主体、风格或图像编辑指令。建议不超过 300 汉字。"
+          },
+          "size": {
+            "type": "string",
+            "description": "图像尺寸。Seedream 4.5/4.0 支持 '1K', '2K', '4K' 或像素值如 '1024x1024'。SeedEdit 编辑模型推荐使用 'adaptive' 以自动匹配原图比例。",
+            "default": "2K"
+          },
+          "image": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "description": "参考图或原图 URL。Seedream 4.5/4.0 支持多图融合（最多 14 张图）；SeedEdit 仅支持单图（URL）。"
+          },
+          "seed": {
+            "type": "integer",
+            "description": "随机种子，范围 [-1, 2147483647]。固定种子可用于复现结果。"
+          },
+          "sequential_image_generation": {
+            "type": "string",
+            "enum": ["auto", "disabled"],
+            "description": "组图生成控制。设置为 'auto' 将根据提示词自动生成一组（如 4 张）具有主体一致性的连贯图片。",
+            "default": "disabled"
+          },
+          "sequential_image_generation_options": {
+            "type": "object",
+            "description": "组图生成的高级配置项。",
+            "properties": {
+              "max_images": {
+                "type": "integer",
+                "description": "组图模式下的最大生成数量，范围 1-15。",
+                "default": 4
+              }
+            }
+          },
+          "watermark": {
+            "type": "boolean",
+            "description": "是否在生成结果中添加 'AI 生成' 水印。",
+            "default": true
+          }
+        },
+        "required": ["prompt"]
+      }
+    }
+  ],
+  "meta": {
+    "avatar": "🌋",
+    "description": "基于字节跳动豆包生图大模型，提供顶级的文生图、多图特征融合、连贯组图生成（如漫画分镜）以及自然语言图像编辑能力。",
+    "tags": ["image", "generator", "doubao", "volcengine", "seedream", "comic"],
+    "title": "豆包 (火山引擎) 图像生成"
+  },
+  "settings": {
+    "type": "object",
+    "required": ["ARK_API_KEY"],
+    "properties": {
+      "ARK_API_KEY": {
+        "type": "string",
+        "title": "API Key",
+        "description": "在火山引擎 Ark 平台获取的 API Key。"
+      }
+    }
+  },
+  "version": "2"
+}

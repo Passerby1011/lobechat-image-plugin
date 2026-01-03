@@ -4,17 +4,36 @@
     {
       "url": "https://lobechat-image-plugin-eight.vercel.app/api/zhipuai-image/generate",
       "name": "generateImage",
-      "description": "智谱AI图像生成",
+      "description": "基于智谱AI CogView 系列模型生成高质量图像。CogView-4 具备强大的中文语义理解和精准的汉字生成能力。",
       "parameters": {
         "type": "object",
         "properties": {
           "model": {
             "type": "string",
-            "enum": ["cogview-3-flash", "cogview-3", "cogview-3-plus"],
-            "default": "cogview-3-flash"
+            "enum": ["cogview-4-250304", "cogview-4", "cogview-3-flash"],
+            "description": "模型编码。'cogview-4-250304' 为最新旗舰模型，支持 HD 高清质量；'cogview-3-flash' 速度极快且成本更低。",
+            "default": "cogview-4"
           },
-          "prompt": { "type": "string" },
-          "size": { "type": "string", "default": "1024x1024" }
+          "prompt": { 
+            "type": "string",
+            "description": "正向提示词。描述画面主体、风格、光影等细节。支持中英文，尤其擅长处理包含中文文字的生成请求。"
+          },
+          "size": { 
+            "type": "string", 
+            "description": "图像分辨率比例。推荐值：'1024x1024', '768x1344', '864x1152', '1344x768'。长宽需在 512px - 2048px 之间。",
+            "default": "1024x1024" 
+          },
+          "quality": {
+            "type": "string",
+            "enum": ["hd", "standard"],
+            "description": "图像生成质量（仅旗舰模型支持）。'hd' 模式耗时约 20 秒，画面细节更丰富；'standard' 模式耗时 5-10 秒，快速出图。",
+            "default": "standard"
+          },
+          "watermark_enabled": {
+            "type": "boolean",
+            "description": "水印开关。默认为 true，在生成的图像中添加显式或隐式水印以符合合规要求。",
+            "default": true
+          }
         },
         "required": ["prompt", "model"]
       }
@@ -22,16 +41,20 @@
   ],
   "meta": {
     "avatar": "🧠",
-    "description": "智谱AI CogView 图像生成器",
-    "tags": ["image", "zhipu", "cogview"],
-    "title": "智谱AI 图像生成器"
+    "description": "集成智谱AI CogView 旗舰模型，具备卓越的语义理解与行业领先的汉字生成能力，支持高清细节渲染。",
+    "tags": ["image", "zhipu", "cogview", "text-to-image", "chinese-text"],
+    "title": "智谱AI (CogView) 图像生成"
   },
   "settings": {
     "type": "object",
     "required": ["ZHIPUAI_API_KEY"],
     "properties": {
-      "ZHIPUAI_API_KEY": { "type": "string", "title": "API Key" }
+      "ZHIPUAI_API_KEY": { 
+        "type": "string", 
+        "title": "API Key",
+        "description": "智谱AI开放平台（BigModel）获取的 API Key。"
+      }
     }
   },
-  "version": "1"
+  "version": "2"
 }

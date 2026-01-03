@@ -1,63 +1,87 @@
 # 🎨 LobeChat Image Plugins Hub
 
-这是一个高度集成的 LobeChat 图像生成插件中心，基于 **Next.js 14** 构建。它将多个主流 AI 图像生成服务整合在一个域名下，并提供了统一的持久化存储能力。
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js" alt="Next.js 14">
+  <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/LobeChat-Plugins-00d1b2?style=for-the-badge" alt="LobeChat Plugins">
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
+</p>
 
-## 🌟 特性亮点
+> **2026 旗舰版重大升级**：全平台模型扩充、多模态功能增强、UI 重构及参数鲁棒性优化已全面完成。
 
-- **🚀 统一分发**：一个域名支持无限个插件，通过路径动态路由（如 `/api/siliconflow-image/generate`）。
-- **💾 永久存储**：集成 **Vercel Blob**，自动将所有生成的临时链接转存为永久 URL，解决图片失效问题。
-- **📊 响应规范**：所有插件均返回标准的 Markdown 格式，包含模型信息、优化后的提示词及参数展示。
-- **🏗️ 易于扩展**：采用插件注册机制，新增一个插件仅需几行代码。
-
-## 🛠️ 已集成插件
-
-您可以直接将以下链接添加到 LobeChat 的自定义插件中：
-
-| 插件名称 | 标识符 | Manifest 链接 (部署后) |
-| :--- | :--- | :--- |
-| **SiliconFlow 图像生成** | `siliconflow-image` | `https://your-domain.com/siliconflow-image/manifest.json` |
-| **xAI (Grok) 图像生成** | `xai-image` | `https://your-domain.com/xai-image/manifest.json` |
-| **通义万相 (阿里)** | `tongyi-image` | `https://your-domain.com/tongyi-image/manifest.json` |
-| **腾讯混元生成** | `tencent-hunyuan-image` | `https://your-domain.com/tencent-hunyuan-image/manifest.json` |
-| **智谱 AI (CogView)** | `zhipuai-image` | `https://your-domain.com/zhipuai-image/manifest.json` |
-
-## 📸 效果展示 (示例)
-
-![一只在赛博朋克城市屋顶上喝咖啡的机械猫](https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&q=80&w=1000)
+LobeChat Image Plugins Hub 是一个高度集成的图像生成插件中心，致力于为 LobeChat 用户提供一站式的多平台 AI 绘画能力。通过统一的架构设计，我们将全球领先的 AI 图像生成服务整合在一起，并解决了图片失效、参数复杂等痛点。
 
 ---
 
-**提示词**: 一只在赛博朋克城市屋顶上喝咖啡的机械猫
-**优化后提示词**: A mechanical cat drinking coffee on a rooftop in a cyberpunk city, high detail, neon lights, 8k resolution.
-**模型**: grok-2-image
+## ✨ 核心特性
 
-## 🚀 部署指南
+- 🌈 **多平台大合集**：一键接入通义万相、腾讯混元、智谱 AI、硅基流动 (Flux/SD)、字节跳动豆包 (Seedream)、xAI (Grok) 等主流模型。
+- 🖼️ **图片持久化**：内置 Vercel Blob 存储支持，自动将生成的临时链接转为永久地址，确保创作永不丢失。
+- ⚡ **极速响应**：全面接入各平台同步极速版接口，秒级出图，无需漫长等待。
+- 🛠️ **全功能覆盖**：支持文生图、图生图、图像编辑、风格迁移、高保真图像翻译等多模态任务。
+- 🎨 **现代 UI 界面**：基于 Tailwind CSS v4 构建的全新插件详情页，提供极致的视觉体验与交互。
 
-### 1. 一键部署到 Vercel
+---
 
-点击下方按钮或直接在 Vercel 导入此仓库：
+## 🚀 快速开始
+
+### 1. 一键部署
+
+最快的使用方式是部署到 Vercel：
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
 
-### 2. 配置环境变量
+### 2. 环境配置
 
-在 Vercel 控制台中配置以下环境变量：
+在部署环境中配置以下变量以启用图片持久化：
 
-| 变量名 | 必填 | 描述 |
+| 变量名 | 是否必填 | 说明 |
 | :--- | :--- | :--- |
-| `BLOB_READ_WRITE_TOKEN` | **是** | Vercel Blob 的访问令牌，用于图片持久化存储。 |
+| `BLOB_READ_WRITE_TOKEN` | **是** | 用于 Vercel Blob 存储，防止生成的图片链接失效。 |
 
-*注：各 AI 服务的 API Key 由用户在 LobeChat 客户端设置中输入，后端无需配置。*
+*注：各 AI 服务的 API Key 由用户在 LobeChat 插件设置中按需输入。*
 
-## 🧑‍💻 开发者指南
+---
 
-### 添加新插件
+## 📦 支持的模型插件矩阵
 
-1. 在 `src/plugins` 下创建一个新文件夹（如 `my-new-ai`）。
-2. 实现 `handler.ts`，导出符合 `PluginHandler` 接口的对象。
-3. 在 `src/plugins/index.ts` 中注册新插件。
-4. 在 `public/` 下添加 `manifest.json`。
+您可以将以下链接直接添加到 LobeChat 的自定义插件列表中。
 
-## 📜 开源协议
+| 插件名称 | 标识符 | 核心模型 / 特色能力 |
+| :--- | :--- | :--- |
+| **通义万相 (AliCloud)** | `tongyi-image` | Qwen-Image-Max, 图像编辑, 风格融合 |
+| **豆包 (火山引擎)** | `doubao-image` | Seedream 4.5, SeedEdit 3.0, 组图连贯生成 |
+| **硅基流动 (SiliconFlow)** | `siliconflow-image` | FLUX (Pro/Dev), 可图 (Kolors), SDXL |
+| **智谱 AI (CogView)** | `zhipuai-image` | CogView-4 旗舰, 汉字精准生成 |
+| **腾讯混元 (Hunyuan)** | `tencent-hunyuan-image` | Hunyuan-Lite (极速同步), 3.0 专业版 |
+| **xAI (Grok)** | `xai-image` | Grok-2 视觉生成能力 |
 
-MIT
+---
+
+## 🛠️ 开发者指南
+
+如果您想为本项目添加新的插件支持：
+
+1. **核心逻辑**：在 `src/plugins` 下创建新目录，并实现 `handler.ts`。
+2. **路由注册**：在 `src/plugins/index.ts` 中完成插件定义注册。
+3. **配置定义**：在 `public/` 下创建对应的 `manifest.json`。
+
+---
+
+## 📖 详细文档
+
+- [2026 升级计划分析 (UPGRADE_PLAN.md)](UPGRADE_PLAN.md)
+- [升级完成报告 (UPGRADE_REPORT.md)](UPGRADE_REPORT.md)
+- [各平台配置指南 (文档目录)](文档/)
+
+---
+
+## 📄 开源协议
+
+基于 **MIT** 协议开源。
+
+---
+
+<p align="center">
+  由 <b>Passerby1011</b> 与社区共同维护
+</p>
