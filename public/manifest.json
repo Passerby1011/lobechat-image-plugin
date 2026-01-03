@@ -1,0 +1,370 @@
+{
+  "identifier": "image-generator-hub",
+  "api": [
+    {
+      "url": "https://lobechat-image-plugin-eight.vercel.app/api/tongyi-image/generate",
+      "name": "generateImageWithTongyi",
+      "description": "利用阿里云通义万相和 Qwen-Image 模型生成、编辑或翻译图像。支持文生图、图生图、图像编辑、多图融合及高保真图像翻译。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型名称。'qwen-image-max' 适用于最高画质文生图，'qwen-image-edit-plus' 适用于图像编辑与融合，'qwen-mt-image' 适用于图像翻译，'wan2.6-t2i' 为最新版文生图。",
+            "default": "qwen-image-max",
+            "enum": [
+              "qwen-image-max",
+              "qwen-image-plus",
+              "qwen-image-edit-plus",
+              "qwen-mt-image",
+              "wan2.6-t2i",
+              "wan2.6-image",
+              "z-image-turbo",
+              "wan2.5-t2i-preview"
+            ]
+          },
+          "input": {
+            "type": "object",
+            "description": "输入内容，包括文本提示和参考图像。",
+            "properties": {
+              "prompt": {
+                "type": "string",
+                "description": "正向提示词，描述画面内容或编辑指令。支持中英文。"
+              },
+              "images": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "参考图 URL 列表。图像编辑模式下支持 1-3 张参考图及 1 个文本指令。"
+              }
+            }
+          },
+          "parameters": {
+            "type": "object",
+            "description": "生成参数配置。",
+            "properties": {
+              "size": { 
+                "type": "string", 
+                "description": "输出图像的分辨率，如 '1024*1024'。qwen-image-max 默认 1664*928，wan2.6 默认 1280*1280。",
+                "default": "1024*1024" 
+              },
+              "n": { 
+                "type": "integer", 
+                "description": "生成图像的数量，通常为 1。",
+                "default": 1 
+              },
+              "source_lang": { 
+                "type": "string", 
+                "description": "图像翻译的源语言，如 'en' (英), 'ja' (日), 'auto' (自动识别)。仅用于 qwen-mt-image 模型。" 
+              },
+              "target_lang": { 
+                "type": "string", 
+                "description": "图像翻译的目标语言，默认为 'zh' (中)。仅用于 qwen-mt-image 模型。",
+                "default": "zh"
+              }
+            }
+          }
+        },
+        "required": ["model"]
+      }
+    },
+    {
+      "url": "https://lobechat-image-plugin-eight.vercel.app/api/doubao-image/generate",
+      "name": "generateImageWithDoubao",
+      "description": "基于火山引擎豆包 (Doubao Seedream) 模型的图像生成与编辑能力。支持文生图、多图特征融合、连贯组图生成及自然语言图像编辑。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型 ID。'doubao-seedream-4-5-251128' 为最新旗舰模型；'doubao-seededit-3-0-i2i-250628' 为图像编辑模型。",
+            "default": "doubao-seedream-4-5-251128",
+            "enum": [
+              "doubao-seedream-4-5-251128",
+              "doubao-seedream-4-0-250828",
+              "doubao-seedream-3-0-t2i-250415",
+              "doubao-seededit-3-0-i2i-250628"
+            ]
+          },
+          "prompt": {
+            "type": "string",
+            "description": "提示词内容。描述想要生成的画面主体、风格或图像编辑指令。建议不超过 300 汉字。"
+          },
+          "size": {
+            "type": "string",
+            "description": "图像尺寸。Seedream 4.5/4.0 支持 '1K', '2K', '4K' 或像素值如 '1024x1024'。SeedEdit 编辑模型推荐使用 'adaptive' 以自动匹配原图比例。",
+            "default": "2K"
+          },
+          "image": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ],
+            "description": "参考图或原图 URL。Seedream 4.5/4.0 支持多图融合（最多 14 张图）；SeedEdit 仅支持单图（URL）。"
+          },
+          "seed": {
+            "type": "integer",
+            "description": "随机种子，范围 [-1, 2147483647]。固定种子可用于复现结果。"
+          },
+          "sequential_image_generation": {
+            "type": "string",
+            "enum": ["auto", "disabled"],
+            "description": "组图生成控制。设置为 'auto' 将根据提示词自动生成一组（如 4 张）具有主体一致性的连贯图片。",
+            "default": "disabled"
+          },
+          "sequential_image_generation_options": {
+            "type": "object",
+            "description": "组图生成的高级配置项。",
+            "properties": {
+              "max_images": {
+                "type": "integer",
+                "description": "组图模式下的最大生成数量，范围 1-15。",
+                "default": 4
+              }
+            }
+          },
+          "watermark": {
+            "type": "boolean",
+            "description": "是否在生成结果中添加 'AI 生成' 水印。",
+            "default": true
+          }
+        },
+        "required": ["prompt"]
+      }
+    },
+    {
+      "url": "https://lobechat-image-plugin-eight.vercel.app/api/siliconflow-image/generate",
+      "name": "generateImageWithSiliconFlow",
+      "description": "基于 SiliconFlow 平台提供的 FLUX, Kolors, SDXL 等顶级开源模型生成高质量图像。支持高度定制的参数控制。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "模型名称",
+            "enum": [
+              "black-forest-labs/FLUX.1-schnell",
+              "black-forest-labs/FLUX.1-dev",
+              "black-forest-labs/FLUX.1-pro",
+              "black-forest-labs/FLUX-1.1-pro",
+              "Kwai-Kolors/Kolors",
+              "Qwen/Qwen-Image",
+              "Qwen/Qwen-Image-Edit-2509"
+            ],
+            "default": "black-forest-labs/FLUX.1-schnell"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "提示词内容。描述想要生成的图像内容（Flux 系列模型建议使用详细的英文描述，Kolors 建议使用中文）。"
+          },
+          "negative_prompt": {
+            "type": "string",
+            "description": "负向提示词。描述你不希望出现在图像中的内容。"
+          },
+          "image_size": {
+            "type": "string",
+            "description": "图像尺寸 (宽x高)。Kolors 推荐：1024x1024, 768x1024, 1024x768。Qwen 推荐：1328x1328, 1664x928。",
+            "enum": [
+              "1024x1024",
+              "960x1280",
+              "768x1024",
+              "720x1440",
+              "720x1280",
+              "1280x960",
+              "1024x768",
+              "1440x720",
+              "1280x720",
+              "1328x1328",
+              "1664x928",
+              "928x1664",
+              "1472x1140",
+              "1140x1472"
+            ],
+            "default": "1024x1024"
+          },
+          "batch_size": {
+            "type": "string",
+            "description": "单次请求生成的图像数量 (1-4)。",
+            "enum": ["1", "2", "3", "4"],
+            "default": "1"
+          },
+          "seed": {
+            "type": "integer",
+            "description": "随机种子。设置固定整数值以重现特定的生成结果。"
+          },
+          "num_inference_steps": {
+            "type": "integer",
+            "description": "推理步数 (1-100)。步数越高通常质量越好但耗时更长。",
+            "default": 20
+          },
+          "guidance_scale": {
+            "type": "number",
+            "description": "提示词遵循度 (CFG Scale)。控制画面与提示词的贴合程度，通常建议在 5.0 - 7.5 之间。",
+            "default": 7.5
+          },
+          "prompt_extension": {
+            "type": "boolean",
+            "description": "是否开启提示词自动扩写（仅部分模型支持）。",
+            "default": false
+          },
+          "image": {
+            "type": "string",
+            "description": "参考图 URL。用于图生图或图像编辑。"
+          }
+        },
+        "required": ["prompt", "model"]
+      }
+    },
+    {
+      "url": "https://lobechat-image-plugin-eight.vercel.app/api/tencent-hunyuan-image/generate",
+      "name": "generateImageWithHunyuan",
+      "description": "基于腾讯混元大模型官方极速版接口生成高质量图像，秒级同步出图。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "Prompt": {
+            "type": "string",
+            "description": "正向提示词。描述想要生成的图像内容，建议使用中文以获得最佳果，最大支持 1024 字符。"
+          },
+          "NegativePrompt": {
+            "type": "string",
+            "description": "反向提示词。描述你不希望出现在生成结果中的内容，用于过滤干扰元素。"
+          },
+          "Resolution": {
+            "type": "string",
+            "description": "图像分辨率比例。支持 '1024:1024' (1:1), '768:1024' (3:4), '1024:768' (4:3), '720:1280' (9:16), '1280:720' (16:9)。",
+            "enum": ["1024:1024", "768:1024", "1024:768", "720:1280", "1280:720"],
+            "default": "1024:1024"
+          },
+          "Seed": {
+            "type": "integer",
+            "description": "随机种子。不传或传0表示随机，传入正数可固定画面结构。"
+          },
+          "LogoAdd": {
+            "type": "string",
+            "description": "是否添加水印标识。'1':添加，'0':不添加。默认 '0'。",
+            "enum": ["0", "1"],
+            "default": "0"
+          }
+        },
+        "required": ["Prompt"]
+      }
+    },
+    {
+      "url": "https://lobechat-image-plugin-eight.vercel.app/api/zhipuai-image/generate",
+      "name": "generateImageWithZhipu",
+      "description": "基于智谱AI CogView 系列模型生成高质量图像。CogView-4 具备强大的中文语义理解和精准的汉字生成能力。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "enum": ["cogview-4-250304", "cogview-4", "cogview-3-flash"],
+            "description": "模型编码。'cogview-4-250304' 为最新旗舰模型，支持 HD 高清质量；'cogview-3-flash' 速度极快且成本更低。",
+            "default": "cogview-4"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "正向提示词。描述画面主体、风格、光影等细节。支持中英文，尤其擅长处理包含中文文字的生成请求。"
+          },
+          "size": {
+            "type": "string",
+            "description": "图像分辨率比例。推荐值：'1024x1024', '768x1344', '864x1152', '1344x768'。长宽需在 512px - 2048px 之间。",
+            "default": "1024x1024"
+          },
+          "quality": {
+            "type": "string",
+            "enum": ["hd", "standard"],
+            "description": "图像生成质量（仅旗舰模型支持）。'hd' 模式耗时约 20 秒，画面细节更丰富；'standard' 模式耗时 5-10 秒，快速出图。",
+            "default": "standard"
+          },
+          "watermark_enabled": {
+            "type": "boolean",
+            "description": "水印开关。默认为 true，在生成的图像中添加显式或隐式水印以符合合规要求。",
+            "default": true
+          }
+        },
+        "required": ["prompt", "model"]
+      }
+    },
+    {
+      "url": "https://lobechat-image-plugin-eight.vercel.app/api/xai-image/generate",
+      "name": "generateImageWithXAI",
+      "description": "使用 xAI 的 Grok-2 模型生成高质量图片。具备极强的指令遵循能力和视觉表现力。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "xAI 模型名称。",
+            "default": "grok-2-image"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "图像生成的文本描述。"
+          },
+          "n": {
+            "type": "integer",
+            "description": "生成图像数量，通常为 1。",
+            "default": 1
+          }
+        },
+        "required": ["prompt"]
+      }
+    }
+  ],
+  "meta": {
+    "avatar": "🎨",
+    "description": "整合了全球领先的 AI 图像生成服务：阿里通义/Qwen、字节豆包、腾讯混元、智谱 CogView、SiliconFlow 以及 xAI Grok。支持文生图、图像编辑、翻译及多图融合。",
+    "tags": ["image", "generator", "ai", "doubao", "hunyuan", "zhipu", "tongyi", "siliconflow", "xai", "qwen", "flux"],
+    "title": "全能 AI 图像生成中心"
+  },
+  "settings": {
+    "type": "object",
+    "properties": {
+      "ARK_API_KEY": {
+        "type": "string",
+        "title": "豆包 (火山引擎) API Key",
+        "format": "password",
+        "description": "用于豆包 Seedream 4.5 系列图像生成。"
+      },
+      "TENCENT_SECRET_ID": {
+        "type": "string",
+        "title": "腾讯云 Secret ID（混元）",
+        "format": "password",
+        "description": "腾讯云访问管理的 SecretId。"
+      },
+      "TENCENT_SECRET_KEY": {
+        "type": "string",
+        "title": "腾讯云 Secret Key（混元）",
+        "format": "password",
+        "description": "腾讯云访问管理的 SecretKey。"
+      },
+      "ZHIPUAI_API_KEY": {
+        "type": "string",
+        "title": "智谱 AI API Key",
+        "format": "password",
+        "description": "用于智谱 CogView 系列图像生成。"
+      },
+      "ALIBABA_API_KEY": {
+        "type": "string",
+        "title": "阿里百炼 API Key",
+        "format": "password",
+        "description": "用于通义万相 & Qwen-Image 图像生成与编辑。"
+      },
+      "SILICONFLOW_API_KEY": {
+        "type": "string",
+        "title": "SiliconFlow API Key",
+        "format": "password",
+        "description": "用于 SiliconFlow FLUX & Kolors 图像生成。"
+      },
+      "XAI_API_KEY": {
+        "type": "string",
+        "title": "xAI API Key",
+        "format": "password",
+        "description": "用于 xAI Grok 图像生成。"
+      }
+    }
+  },
+  "version": "2",
+  "systemRole": "你是一个顶级的全能图像生成助手。你集成了阿里、字节、腾讯、智谱、SiliconFlow 和 xAI 的最强生图能力。你可以根据用户的具体需求（如：需要极速出图、需要最高画质、需要生成汉字、需要编辑现有图像或进行图像翻译等），智能选择最合适的模型并配置最优参数。"
+}

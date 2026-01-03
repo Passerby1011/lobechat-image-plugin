@@ -66,7 +66,15 @@ export const xaiHandler: PluginHandler = {
         model: model || "grok-2-image"
       });
 
-      return NextResponse.json({ markdownResponse });
+      return NextResponse.json({ 
+        markdownResponse,
+        images: imageUrls,
+        metadata: {
+          prompt,
+          revisedPrompt: respData.data[0]?.revised_prompt,
+          model: model || "grok-2-image"
+        }
+      });
     } catch (error: any) {
       console.error("[xAI Plugin] Error:", error);
       return NextResponse.json(
