@@ -41,7 +41,7 @@ export const doubaoHandler: PluginHandler = {
       stream = false,
       sequential_image_generation = "disabled",
       sequential_image_generation_options,
-      watermark = true
+      watermark = false
     } = body;
 
     // 1. 必填项校验

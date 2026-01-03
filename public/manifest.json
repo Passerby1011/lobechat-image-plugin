@@ -125,7 +125,7 @@
           "watermark": {
             "type": "boolean",
             "description": "是否在生成结果中添加 'AI 生成' 水印。",
-            "default": true
+            "default": false
           }
         },
         "required": ["prompt"]

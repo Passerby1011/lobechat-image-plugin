@@ -33,7 +33,7 @@
           },
           "LogoAdd": {
             "type": "string",
-            "description": "是否添加 Logo。'0'：不添加；'1'：添加。默认 '0'。",
+            "description": "是否添加水印标识。'1':添加，'0':不添加。默认 '0'。",
             "enum": ["0", "1"],
             "default": "0"
           }
