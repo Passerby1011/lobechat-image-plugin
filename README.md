@@ -29,7 +29,7 @@ LobeChat Image Plugins Hub 是一个高度集成的图像生成插件中心，�
 
 最快的使用方式是部署到 Vercel：
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FPasserby1011%2Flobechat-image-plugin&env=BLOB_READ_WRITE_TOKEN&envDescription=Vercel%20Blob%20Token%20is%20required%20for%20image%20persistence.)
 
 ### 2. 环境配置
 
@@ -47,14 +47,17 @@ LobeChat Image Plugins Hub 是一个高度集成的图像生成插件中心，�
 
 您可以将以下链接直接添加到 LobeChat 的自定义插件列表中。
 
-| 插件名称 | 标识符 | 核心模型 / 特色能力 |
-| :--- | :--- | :--- |
-| **通义万相 (AliCloud)** | `tongyi-image` | Qwen-Image-Max, 图像编辑, 风格融合 |
-| **豆包 (火山引擎)** | `doubao-image` | Seedream 4.5, SeedEdit 3.0, 组图连贯生成 |
-| **硅基流动 (SiliconFlow)** | `siliconflow-image` | FLUX (Pro/Dev), 可图 (Kolors), SDXL |
-| **智谱 AI (CogView)** | `zhipuai-image` | CogView-4 旗舰, 汉字精准生成 |
-| **腾讯混元 (Hunyuan)** | `tencent-hunyuan-image` | Hunyuan-Lite (极速同步), 3.0 专业版 |
-| **xAI (Grok)** | `xai-image` | Grok-2 视觉生成能力 |
+| 插件名称 | 标识符 | Manifest URL (示例) | 核心模型 / 特色能力 |
+| :--- | :--- | :--- | :--- |
+| **全能图像中心 (Hub)** | `image-generator-hub` | `https://your-app.vercel.app/manifest.json` | 聚合所有模型，支持智能路由 |
+| **通义万相 (AliCloud)** | `tongyi-image` | `https://your-app.vercel.app/tongyi-image/manifest.json` | Qwen-Image-Max, 图像编辑, 风格融合 |
+| **豆包 (火山引擎)** | `doubao-image` | `https://your-app.vercel.app/doubao-image/manifest.json` | Seedream 4.5, SeedEdit 3.0, 组图连贯生成 |
+| **硅基流动 (SiliconFlow)** | `siliconflow-image` | `https://your-app.vercel.app/siliconflow-image/manifest.json` | FLUX (Pro/Dev), 可图 (Kolors), SDXL |
+| **智谱 AI (CogView)** | `zhipuai-image` | `https://your-app.vercel.app/zhipuai-image/manifest.json` | CogView-4 旗舰, 汉字精准生成 |
+| **腾讯混元 (Hunyuan)** | `tencent-hunyuan-image` | `https://your-app.vercel.app/tencent-hunyuan-image/manifest.json` | Hunyuan-Lite (极速同步), 3.0 专业版 |
+| **xAI (Grok)** | `xai-image` | `https://your-app.vercel.app/xai-image/manifest.json` | Grok-2 视觉生成能力 |
+
+> **提示**：请将 `your-app.vercel.app` 替换为您实际部署的域名。
 
 ---
 
@@ -65,14 +68,6 @@ LobeChat Image Plugins Hub 是一个高度集成的图像生成插件中心，�
 1. **核心逻辑**：在 `src/plugins` 下创建新目录，并实现 `handler.ts`。
 2. **路由注册**：在 `src/plugins/index.ts` 中完成插件定义注册。
 3. **配置定义**：在 `public/` 下创建对应的 `manifest.json`。
-
----
-
-## 📖 详细文档
-
-- [2026 升级计划分析 (UPGRADE_PLAN.md)](UPGRADE_PLAN.md)
-- [升级完成报告 (UPGRADE_REPORT.md)](UPGRADE_REPORT.md)
-- [各平台配置指南 (文档目录)](文档/)
 
 ---
 
