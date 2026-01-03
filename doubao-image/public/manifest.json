@@ -1,0 +1,92 @@
+{
+  "identifier": "doubao-image",
+  "api": [
+    {
+      "url": "https://lobechat.doubao-image.230617.xyz/api/generate",
+      "name": "generateImage",
+      "description": "使用火山引擎通用2.1模型，根据文本提示生成图片。",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "req_key": {
+            "type": "string",
+            "description": "算法名称，默认为 'high_aes_general_v30l_zt2i'",
+            "enum": ["high_aes_general_v30l_zt2i"]
+          },
+          "prompt": {
+            "type": "string",
+            "description": "用于生成图像的文本描述，中英文均可。建议将特定文字内容放在双引号内以提高准确率。",
+            "minLength": 1
+          },
+          "response_format": {
+            "type": "string",
+            "description": "指定返回的图像格式。'url' 表示返回图片链接，'b64_json' 表示返回图片的base64编码。",
+            "enum": ["url", "b64_json"]
+          },
+          "seed": {
+            "type": "integer",
+            "description": "随机种子，用于结果可复现性。若为-1则为随机,默认为-1。"
+          },
+          "scale": {
+            "type": "number",
+            "description": "影响文本描述与图像的相关程度。取值范围：[1, 10]，默认为3.5。",
+            "minimum": 1,
+            "maximum": 10
+          },
+          "ddim_steps": {
+            "type": "integer",
+            "description": "生成图像的迭代步数。推荐取值范围：[1, 50]，默认为25。",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "width": {
+            "type": "integer",
+            "description": "生成图像的宽度。取值范围：[256, 768]",
+            "minimum": 256,
+            "maximum": 768
+          },
+          "height": {
+            "type": "integer",
+            "description": "生成图像的高度。取值范围：[256, 768]",
+            "minimum": 256,
+            "maximum": 768
+          },
+          "use_pre_llm": {
+            "type": "boolean",
+            "description": "是否开启文本扩写优化。输入prompt较短时建议开启。"
+          },
+          "use_sr": {
+            "type": "boolean",
+            "description": "是否开启AIGC超分，开启后输出图像尺寸将翻倍。"
+          }
+        },
+        "required": ["req_key","prompt","use_sr","use_pre_llm","width","height","ddim_steps","scale"]
+      }
+    }
+  ],
+  "meta": {
+    "avatar": "🎨",
+    "description": "此插件使用火山引擎的通用2.1文生图模型，根据文本提示生成高质量图像。",
+    "tags": ["图片生成", "火山引擎", "豆包", "文生图", "AI绘画", "AIGC"],
+    "title": "豆包文生图 (火山引擎版)"
+  },
+  "settings": {
+    "type": "object",
+    "required": ["VOLC_ACCESS_KEY_ID", "VOLC_SECRET_ACCESS_KEY"],
+    "properties": {
+      "VOLC_ACCESS_KEY_ID": {
+        "type": "string",
+        "title": "火山引擎 Access Key ID",
+        "description": "请输入你的火山引擎 Access Key ID。"
+      },
+      "VOLC_SECRET_ACCESS_KEY": {
+        "type": "string",
+        "title": "火山引擎 Secret Access Key",
+        "description": "请输入你的火山引擎 Secret Access Key。",
+        "format": "password"
+      }
+    }
+  },
+  "version": "1.0.1",
+  "systemRole": "你是一个文生图助手。此插件使用火山引擎的文生图API，根据用户提供的文本提示（prompt）生成图片。你需要从用户那里获取图像描述，并可以询问用户关于图片尺寸（width, height）、随机种子（seed）、风格强度（scale）、迭代步数（ddim_steps）等参数。算法标识（req_key）通常为 'high_aes_general_v21_L'，用户也可以选择是否开启文本扩写（use_pre_llm）和超分辨率（use_sr）。最终调用 `generateImage` 方法生成图片。API需要火山引擎的Access Key ID和Secret Access Key进行认证，这些信息由用户在插件设置中配置。"
+}

@@ -1,0 +1,33 @@
+{
+  "name": "lobe-chat-plugin-doubao-volcengine-image",
+  "version": "1.0.0",
+  "description": "LobeChat plugin for generating images using VolcEngine's text-to-image API, for Doubao.",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@lobehub/chat-plugin-sdk": "^1.32.4",
+    "@lobehub/chat-plugins-gateway": "^1.9.0",
+    "@vercel/blob": "^0.25.0",
+    "axios": "^1.6.2",
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@types/uuid": "^9.0.7",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
