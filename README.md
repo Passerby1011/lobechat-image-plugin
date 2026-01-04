@@ -43,21 +43,47 @@ LobeChat Image Plugins Hub 是一个高度集成的图像生成插件中心，�
 
 ---
 
-## 📦 支持的模型插件矩阵
+## 📦 添加插件到 LobeChat
 
-您可以将以下链接直接添加到 LobeChat 的自定义插件列表中。
+部署完成后，使用以下 URL 添加插件到 LobeChat。
 
-| 插件名称 | 标识符 | Manifest URL (示例) | 核心模型 / 特色能力 |
+### 方式 1: 使用动态 Manifest（推荐 ⭐）
+
+动态 Manifest 会根据您的部署域名自动生成正确的 API URL，**无需手动修改任何配置**。
+
+#### 主 Hub（包含所有 6 个插件）
+```
+https://your-domain.com/api/manifest
+```
+
+#### 单个插件
+| 插件名称 | 标识符 | 动态 Manifest URL | 核心模型 / 特色能力 |
 | :--- | :--- | :--- | :--- |
-| **全能图像中心 (Hub)** | `image-generator-hub` | `https://your-app.vercel.app/manifest.json` | 聚合所有模型，支持智能路由 |
-| **通义万相 (AliCloud)** | `tongyi-image` | `https://your-app.vercel.app/tongyi-image/manifest.json` | Qwen-Image-Max, 图像编辑, 风格融合 |
-| **豆包 (火山引擎)** | `doubao-image` | `https://your-app.vercel.app/doubao-image/manifest.json` | Seedream 4.5, SeedEdit 3.0, 组图连贯生成 |
-| **硅基流动 (SiliconFlow)** | `siliconflow-image` | `https://your-app.vercel.app/siliconflow-image/manifest.json` | FLUX (Pro/Dev), 可图 (Kolors), SDXL |
-| **智谱 AI (CogView)** | `zhipuai-image` | `https://your-app.vercel.app/zhipuai-image/manifest.json` | CogView-4 旗舰, 汉字精准生成 |
-| **腾讯混元 (Hunyuan)** | `tencent-hunyuan-image` | `https://your-app.vercel.app/tencent-hunyuan-image/manifest.json` | Hunyuan-Lite (极速同步), 3.0 专业版 |
-| **xAI (Grok)** | `xai-image` | `https://your-app.vercel.app/xai-image/manifest.json` | Grok-2 视觉生成能力 |
+| **通义万相 (AliCloud)** | `tongyi-image` | `https://your-domain.com/api/tongyi-image/manifest` | Qwen-Image-Max, 图像编辑, 风格融合 |
+| **豆包 (火山引擎)** | `doubao-image` | `https://your-domain.com/api/doubao-image/manifest` | Seedream 4.5, SeedEdit 3.0, 组图连贯生成 |
+| **硅基流动 (SiliconFlow)** | `siliconflow-image` | `https://your-domain.com/api/siliconflow-image/manifest` | FLUX (Pro/Dev), 可图 (Kolors), SDXL |
+| **智谱 AI (CogView)** | `zhipuai-image` | `https://your-domain.com/api/zhipuai-image/manifest` | CogView-4 旗舰, 汉字精准生成 |
+| **腾讯混元 (Hunyuan)** | `tencent-hunyuan-image` | `https://your-domain.com/api/tencent-hunyuan-image/manifest` | Hunyuan-Lite (极速同步), 3.0 专业版 |
+| **xAI (Grok)** | `xai-image` | `https://your-domain.com/api/xai-image/manifest` | Grok-2 视觉生成能力 |
 
-> **提示**：请将 `your-app.vercel.app` 替换为您实际部署的域名。
+### 方式 2: 使用静态文件（备用）
+
+如果动态端点不可用，可以使用静态文件：
+
+| 插件名称 | 静态 Manifest URL |
+| :--- | :--- |
+| **全能图像中心 (Hub)** | `https://your-domain.com/manifest.json` |
+| **通义万相** | `https://your-domain.com/tongyi-image/manifest.json` |
+| **豆包** | `https://your-domain.com/doubao-image/manifest.json` |
+| **硅基流动** | `https://your-domain.com/siliconflow-image/manifest.json` |
+| **智谱 AI** | `https://your-domain.com/zhipuai-image/manifest.json` |
+| **腾讯混元** | `https://your-domain.com/tencent-hunyuan-image/manifest.json` |
+| **xAI** | `https://your-domain.com/xai-image/manifest.json` |
+
+> **重要提示**：
+> - 请将 `your-domain.com` 替换为您实际部署的域名（如 `your-app.vercel.app`）
+> - **推荐使用动态 Manifest**（方式 1），它会自动适配任何部署域名，无需手动修改
+> - 静态文件中的 URL 是硬编码的，仅作为备用方案
 
 ---
 
