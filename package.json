@@ -1,17 +1,25 @@
 {
   "name": "lobe-chat-plugins-hub",
   "version": "1.0.0",
-  "description": "Unified Lobe Chat plugins hub for image generation",
+  "description": "Unified Lobe Chat plugins hub for image generation with MCP support",
+  "type": "module",
+  "bin": {
+    "image-mcp-server": "./dist/bin/mcp-server.js"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:mcp": "tsc -p tsconfig.mcp.json",
+    "mcp:stdio": "node dist/bin/mcp-server.js",
+    "mcp:dev": "tsx bin/mcp-server.ts"
   },
   "dependencies": {
     "@lobehub/chat-plugin-sdk": "^1.32.4",
     "@lobehub/chat-plugins-gateway": "^1.9.0",
+    "@modelcontextprotocol/sdk": "^1.26.0",
     "@vercel/blob": "^0.23.4",
     "crypto-js": "^4.2.0",
     "lucide-react": "^0.562.0",

@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",
+    "declaration": true,
+    "target": "ES2022",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src/mcp/**/*",
+    "src/plugins/**/*",
+    "src/shared/**/*",
+    "src/core/**/*",
+    "bin/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/app/**/*"
+  ]
+}

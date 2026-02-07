@@ -4,6 +4,7 @@
   <img src="https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js" alt="Next.js 14">
   <img src="https://img.shields.io/badge/Tailwind-v4-38bdf8?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS">
   <img src="https://img.shields.io/badge/LobeChat-Plugins-00d1b2?style=for-the-badge" alt="LobeChat Plugins">
+  <img src="https://img.shields.io/badge/MCP-Protocol-purple?style=for-the-badge" alt="MCP Protocol">
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
 </p>
 
@@ -20,6 +21,7 @@ LobeChat Image Plugins Hub 是一个高度集成的图像生成插件中心，�
 - ⚡ **极速响应**：全面接入各平台同步极速版接口，秒级出图，无需漫长等待。
 - 🛠️ **全功能覆盖**：支持文生图、图生图、图像编辑、风格迁移、高保真图像翻译等多模态任务。
 - 🎨 **现代 UI 界面**：基于 Tailwind CSS v4 构建的全新插件详情页，提供极致的视觉体验与交互。
+- 🔌 **MCP 协议支持**：全新支持 Model Context Protocol，可在 Claude Desktop、Cursor、VS Code 等 MCP 客户端中使用。
 
 ---
 
@@ -87,6 +89,77 @@ https://your-domain.com/api/manifest
 
 ---
 
+## 🔌 MCP 协议支持
+
+本项目同时支持 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)，可在 Claude Desktop、Cursor、VS Code (Cline) 等 MCP 客户端中直接使用图像生成功能。
+
+### MCP 工具列表
+
+| 工具名称 | 描述 | 推荐度 |
+| :--- | :--- | :--- |
+| `generate_image` | **统一入口** - 一个工具支持所有平台，通过 `platform` 参数选择 | ⭐⭐⭐ 推荐 |
+| `tongyi_generate_image` | 通义万相文生图/图编辑 | 高级用户 |
+| `tongyi_translate_image` | 图像文字翻译 | 高级用户 |
+| `doubao_generate_image` | 豆包 Seedream 文生图 | 高级用户 |
+| `siliconflow_generate_image` | 硅基流动 FLUX/SD | 高级用户 |
+| `hunyuan_generate_image` | 腾讯混元文生图 | 高级用户 |
+| `zhipu_generate_image` | 智谱 CogView 文生图 | 高级用户 |
+| `xai_generate_image` | xAI Grok 文生图 | 高级用户 |
+
+### 方式 1: stdio 模式（本地部署）
+
+适用于 **Claude Desktop**、**Cursor** 等桌面应用。
+
+1. 克隆并编译项目：
+```bash
+git clone https://github.com/Passerby1011/lobechat-image-plugin
+cd lobechat-image-plugin
+npm install
+npm run build:mcp
+```
+
+2. 添加到 MCP 配置文件：
+
+**Claude Desktop** (`%APPDATA%/Claude/claude_desktop_config.json`):
+```json
+{
+  "mcpServers": {
+    "image-plugins": {
+      "command": "node",
+      "args": ["C:/path/to/lobechat-image-plugin/dist/bin/mcp-server.js"],
+      "env": {
+        "ALIBABA_API_KEY": "your-key",
+        "SILICONFLOW_API_KEY": "your-key"
+      }
+    }
+  }
+}
+```
+
+### 方式 2: Streamable HTTP 模式（云端部署）
+
+适用于远程访问，部署到 Vercel 后自动可用。
+
+```json
+{
+  "mcpServers": {
+    "image-plugins-remote": {
+      "type": "streamable-http",
+      "url": "https://your-domain.vercel.app/api/mcp"
+    }
+  }
+}
+```
+
+### 使用示例
+
+在 Claude 中直接说：
+- "帮我生成一张可爱的猫咪图片"
+- "用 doubao 生成赛博朋克风格的城市"
+- "使用硅基流动的 FLUX 模型画一幅山水画"
+
+---
+
 ## 🛠️ 开发者指南
 
 如果您想为本项目添加新的插件支持：
@@ -94,6 +167,7 @@ https://your-domain.com/api/manifest
 1. **核心逻辑**：在 `src/plugins` 下创建新目录，并实现 `handler.ts`。
 2. **路由注册**：在 `src/plugins/index.ts` 中完成插件定义注册。
 3. **配置定义**：在 `public/` 下创建对应的 `manifest.json`。
+4. **MCP 工具**：在 `src/mcp/tools/` 下添加对应的 MCP 工具定义。
 
 ---
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Check, Copy, Sparkles, Zap, Image as ImageIcon, Wand2, Languages, Layers } from 'lucide-react';
+import { Check, Copy, Sparkles, Zap, Image as ImageIcon, Wand2, Languages, Layers, Plug, Terminal, Globe } from 'lucide-react';
 
 export default function Home() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -111,7 +111,7 @@ export default function Home() {
           <p className="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
             2026 旗舰版升级：集成了全球领先的 AI 影像引擎，支持文生图、图像编辑、多图融合及高保真图像翻译。
           </p>
-          <div className="mt-8 flex justify-center gap-4">
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
             <div className="bg-white px-6 py-2 rounded-full shadow-sm border border-slate-200 text-slate-600 font-medium flex items-center gap-2">
               <Wand2 size={18} className="text-purple-500" />
               支持图像编辑
@@ -123,6 +123,10 @@ export default function Home() {
             <div className="bg-white px-6 py-2 rounded-full shadow-sm border border-slate-200 text-slate-600 font-medium flex items-center gap-2">
               <Layers size={18} className="text-orange-500" />
               多图特征融合
+            </div>
+            <div className="bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2 rounded-full shadow-sm text-white font-medium flex items-center gap-2">
+              <Plug size={18} />
+              MCP 协议支持
             </div>
           </div>
         </header>
@@ -191,6 +195,80 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* MCP 协议支持 */}
+        <section className="mb-24 bg-gradient-to-br from-purple-50 to-pink-50 rounded-[3rem] p-12 border border-purple-100 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-12 pointer-events-none opacity-10">
+            <Plug size={120} className="text-purple-600" />
+          </div>
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="bg-purple-600 p-3 rounded-2xl">
+                <Plug size={24} className="text-white" />
+              </div>
+              <h2 className="text-4xl font-extrabold text-slate-900">
+                MCP 协议支持
+              </h2>
+              <span className="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">New</span>
+            </div>
+            
+            <p className="text-slate-600 text-lg mb-10 max-w-2xl">
+              除了 LobeChat 插件，本项目还支持 Model Context Protocol (MCP)，可在 Claude Desktop、Cursor、VS Code 等 MCP 客户端中使用。
+            </p>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* stdio 模式 */}
+              <div className="bg-white rounded-2xl p-8 border border-purple-100">
+                <div className="flex items-center gap-3 mb-4">
+                  <Terminal size={24} className="text-purple-600" />
+                  <h3 className="text-xl font-bold text-slate-900">stdio 模式（本地部署）</h3>
+                </div>
+                <p className="text-slate-500 text-sm mb-4">适用于 Claude Desktop、Cursor 等桌面应用</p>
+                <div className="bg-slate-900 rounded-xl p-4 font-mono text-sm text-green-400 overflow-x-auto">
+                  <div className="text-slate-500"># 编译后配置到 MCP 设置</div>
+                  <div>npm run build:mcp</div>
+                </div>
+                <p className="text-slate-400 text-xs mt-4">API Key 通过 env 环境变量传递</p>
+              </div>
+              
+              {/* HTTP 模式 */}
+              <div className="bg-white rounded-2xl p-8 border border-purple-100">
+                <div className="flex items-center gap-3 mb-4">
+                  <Globe size={24} className="text-purple-600" />
+                  <h3 className="text-xl font-bold text-slate-900">Streamable HTTP（云端部署）</h3>
+                </div>
+                <p className="text-slate-500 text-sm mb-4">部署到 Vercel 后自动可用</p>
+                <div className="bg-slate-900 rounded-xl p-4 font-mono text-sm text-green-400 overflow-x-auto">
+                  <div className="text-slate-500"># MCP 端点</div>
+                  <div>{typeof window !== 'undefined' ? window.location.origin : 'https://your-domain'}/api/mcp</div>
+                </div>
+                <p className="text-slate-400 text-xs mt-4">API Key 通过 HTTP Headers (x-*-api-key) 或环境变量传递</p>
+              </div>
+            </div>
+            
+            <div className="mt-10 p-6 bg-white rounded-2xl border border-purple-100">
+              <h4 className="font-bold text-slate-900 mb-4">📦 可用 MCP 工具</h4>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {[
+                  { name: 'generate_image', desc: '统一入口 ⭐' },
+                  { name: 'tongyi_generate_image', desc: '通义万相' },
+                  { name: 'doubao_generate_image', desc: '豆包' },
+                  { name: 'siliconflow_generate_image', desc: '硅基流动' },
+                  { name: 'hunyuan_generate_image', desc: '腾讯混元' },
+                  { name: 'zhipu_generate_image', desc: '智谱 AI' },
+                  { name: 'xai_generate_image', desc: 'xAI Grok' },
+                  { name: 'tongyi_translate_image', desc: '图像翻译' },
+                ].map(tool => (
+                  <div key={tool.name} className="bg-slate-50 rounded-lg p-3">
+                    <div className="font-mono text-xs text-purple-600 font-bold">{tool.name}</div>
+                    <div className="text-slate-400 text-xs mt-1">{tool.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_comment": "MCP 配置示例 - 复制到对应客户端的配置文件中",
+  
+  "mcpServers": {
+    
+    "_comment_stdio": "=== stdio 模式 (本地部署，适用于 Claude Desktop、Cursor) ===",
+    
+    "lobechat-image-plugins": {
+      "command": "node",
+      "args": ["C:/path/to/lobechat-image-plugin/dist/bin/mcp-server.js"],
+      "env": {
+        "_comment": "至少配置一个平台的 API Key，其他平台可选",
+        
+        "ALIBABA_API_KEY": "your-alibaba-dashscope-api-key",
+        "ARK_API_KEY": "your-volcengine-ark-api-key",
+        "SILICONFLOW_API_KEY": "your-siliconflow-api-key",
+        "TENCENT_SECRET_ID": "your-tencent-cloud-secret-id",
+        "TENCENT_SECRET_KEY": "your-tencent-cloud-secret-key",
+        "ZHIPU_API_KEY": "your-zhipu-api-key",
+        "XAI_API_KEY": "your-xai-api-key",
+        
+        "_comment_blob": "可选：用于图片持久化存储",
+        "BLOB_READ_WRITE_TOKEN": "your-vercel-blob-token"
+      }
+    },
+    
+    "_comment_http": "=== Streamable HTTP 模式 (云端部署，适用于远程访问) ===",
+    
+    "lobechat-image-plugins-remote": {
+      "type": "streamable-http",
+      "url": "https://your-domain.vercel.app/api/mcp"
+    }
+  },
+  
+  "_instructions": {
+    "claude_desktop": {
+      "config_path": {
+        "windows": "%APPDATA%/Claude/claude_desktop_config.json",
+        "macos": "~/Library/Application Support/Claude/claude_desktop_config.json",
+        "linux": "~/.config/Claude/claude_desktop_config.json"
+      },
+      "note": "将 mcpServers 中的内容复制到 Claude Desktop 配置文件中"
+    },
+    "cursor": {
+      "config_path": {
+        "all_platforms": ".cursor/mcp.json (项目根目录) 或全局配置"
+      },
+      "note": "Cursor 支持项目级别和全局级别的 MCP 配置"
+    },
+    "cline": {
+      "config_path": {
+        "vscode": "通过 VS Code 设置面板配置"
+      },
+      "note": "在 Cline 扩展设置中添加 MCP 服务器"
+    }
+  },
+  
+  "_api_key_docs": {
+    "ALIBABA_API_KEY": "https://dashscope.console.aliyun.com/apiKey",
+    "ARK_API_KEY": "https://console.volcengine.com/ark",
+    "SILICONFLOW_API_KEY": "https://cloud.siliconflow.cn/account/ak",
+    "TENCENT_SECRET_ID/KEY": "https://console.cloud.tencent.com/cam/capi",
+    "ZHIPU_API_KEY": "https://open.bigmodel.cn/usercenter/apikeys",
+    "XAI_API_KEY": "https://x.ai/api"
+  }
+}
