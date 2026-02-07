@@ -24,12 +24,10 @@ function getApiKey(envKey: string): string {
 
 /**
  * 聚合所有 MCP 工具
- * 统一入口工具放在最前面（推荐使用）
+ * 只包含各平台专属工具（不包含 generate_image 统一入口）
  */
 export const allMcpTools: Tool[] = [
-  // 统一入口工具（推荐）
-  unifiedTool,
-  // 各平台专属工具（高级用户）
+  // 各平台专属工具
   ...tongyiTools,
   ...doubaoTools,
   ...siliconflowTools,

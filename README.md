@@ -93,18 +93,30 @@ https://your-domain.com/api/manifest
 
 本项目同时支持 [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)，可在 Claude Desktop、Cursor、VS Code (Cline) 等 MCP 客户端中直接使用图像生成功能。
 
+### MCP 端点
+
+| 端点 | 描述 | 包含工具 |
+| :--- | :--- | :--- |
+| `/api/mcp` | **统一端点** - 包含所有平台的工具 | 全部 8 个工具 |
+| `/api/mcp/tongyi` | 通义万相 | tongyi_generate_image, tongyi_translate_image |
+| `/api/mcp/doubao` | 豆包 | doubao_generate_image, doubao_edit_image |
+| `/api/mcp/siliconflow` | 硅基流动 | siliconflow_generate_image |
+| `/api/mcp/hunyuan` | 腾讯混元 | hunyuan_generate_image |
+| `/api/mcp/zhipu` | 智谱 AI | zhipu_generate_image |
+| `/api/mcp/xai` | xAI | xai_generate_image |
+
 ### MCP 工具列表
 
-| 工具名称 | 描述 | 推荐度 |
-| :--- | :--- | :--- |
-| `generate_image` | **统一入口** - 一个工具支持所有平台，通过 `platform` 参数选择 | ⭐⭐⭐ 推荐 |
-| `tongyi_generate_image` | 通义万相文生图/图编辑 | 高级用户 |
-| `tongyi_translate_image` | 图像文字翻译 | 高级用户 |
-| `doubao_generate_image` | 豆包 Seedream 文生图 | 高级用户 |
-| `siliconflow_generate_image` | 硅基流动 FLUX/SD | 高级用户 |
-| `hunyuan_generate_image` | 腾讯混元文生图 | 高级用户 |
-| `zhipu_generate_image` | 智谱 CogView 文生图 | 高级用户 |
-| `xai_generate_image` | xAI Grok 文生图 | 高级用户 |
+| 工具名称 | 描述 |
+| :--- | :--- |
+| `tongyi_generate_image` | 通义万相文生图/图编辑 |
+| `tongyi_translate_image` | 图像文字翻译 |
+| `doubao_generate_image` | 豆包 Seedream 文生图 |
+| `doubao_edit_image` | 豆包图像编辑 |
+| `siliconflow_generate_image` | 硅基流动 FLUX/SD |
+| `hunyuan_generate_image` | 腾讯混元文生图 |
+| `zhipu_generate_image` | 智谱 CogView 文生图 |
+| `xai_generate_image` | xAI Grok 文生图 |
 
 ### 方式 1: stdio 模式（本地部署）
 

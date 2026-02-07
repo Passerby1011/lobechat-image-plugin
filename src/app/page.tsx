@@ -249,18 +249,54 @@ export default function Home() {
               </div>
             </div>
             
+            {/* MCP 端点列表 */}
             <div className="mt-10 p-6 bg-white rounded-2xl border border-purple-100">
+              <h4 className="font-bold text-slate-900 mb-4">🔗 MCP 端点</h4>
+              <div className="grid gap-3">
+                {[
+                  { path: '/api/mcp', name: '统一端点（全部工具）', icon: '🛸', recommended: true },
+                  { path: '/api/mcp/tongyi', name: '通义万相', icon: '🎨' },
+                  { path: '/api/mcp/doubao', name: '豆包', icon: '🌋' },
+                  { path: '/api/mcp/siliconflow', name: '硅基流动', icon: '🚀' },
+                  { path: '/api/mcp/hunyuan', name: '腾讯混元', icon: '🐧' },
+                  { path: '/api/mcp/zhipu', name: '智谱 AI', icon: '🧠' },
+                  { path: '/api/mcp/xai', name: 'xAI Grok', icon: '𝕏' },
+                ].map(endpoint => (
+                  <div key={endpoint.path} className={`flex items-center justify-between p-3 rounded-lg ${endpoint.recommended ? 'bg-purple-50 border border-purple-200' : 'bg-slate-50'}`}>
+                    <div className="flex items-center gap-3">
+                      <span className="text-xl">{endpoint.icon}</span>
+                      <div>
+                        <div className="font-medium text-slate-900 flex items-center gap-2">
+                          {endpoint.name}
+                          {endpoint.recommended && <span className="text-xs bg-purple-600 text-white px-2 py-0.5 rounded-full">推荐</span>}
+                        </div>
+                        <div className="font-mono text-xs text-slate-500">{typeof window !== 'undefined' ? window.location.origin : ''}{endpoint.path}</div>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => copyToClipboard(`api/mcp${endpoint.path === '/api/mcp' ? '' : endpoint.path.replace('/api/mcp', '')}`.replace('api/mcp/', 'api/mcp/'), `mcp-${endpoint.path}`)}
+                      className="text-purple-600 hover:text-purple-800 p-2 hover:bg-purple-100 rounded-lg transition-colors"
+                    >
+                      <Copy size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 可用工具列表 */}
+            <div className="mt-6 p-6 bg-white rounded-2xl border border-purple-100">
               <h4 className="font-bold text-slate-900 mb-4">📦 可用 MCP 工具</h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {[
-                  { name: 'generate_image', desc: '统一入口 ⭐' },
-                  { name: 'tongyi_generate_image', desc: '通义万相' },
-                  { name: 'doubao_generate_image', desc: '豆包' },
+                  { name: 'tongyi_generate_image', desc: '通义文生图' },
+                  { name: 'tongyi_translate_image', desc: '图像翻译' },
+                  { name: 'doubao_generate_image', desc: '豆包文生图' },
+                  { name: 'doubao_edit_image', desc: '豆包图像编辑' },
                   { name: 'siliconflow_generate_image', desc: '硅基流动' },
                   { name: 'hunyuan_generate_image', desc: '腾讯混元' },
                   { name: 'zhipu_generate_image', desc: '智谱 AI' },
                   { name: 'xai_generate_image', desc: 'xAI Grok' },
-                  { name: 'tongyi_translate_image', desc: '图像翻译' },
                 ].map(tool => (
                   <div key={tool.name} className="bg-slate-50 rounded-lg p-3">
                     <div className="font-mono text-xs text-purple-600 font-bold">{tool.name}</div>
