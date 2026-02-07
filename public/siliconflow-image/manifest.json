@@ -4,76 +4,103 @@
     {
       "url": "https://lobechat-image-plugin-eight.vercel.app/api/siliconflow-image/generate",
       "name": "generateImage",
-      "description": "使用SiliconFlow的图像生成API，根据文本提示生成图片",
+      "description": "基于 SiliconFlow 平台提供的 FLUX, Kolors, SDXL 等顶级开源模型生成高质量图像。支持高度定制的参数控制。",
       "parameters": {
         "type": "object",
         "properties": {
           "model": {
             "type": "string",
-            "description": "使用的模型名称",
+            "description": "模型名称",
             "enum": [
               "black-forest-labs/FLUX.1-schnell",
               "black-forest-labs/FLUX.1-dev",
-              "black-forest-labs/FLUX.1-pro"
+              "black-forest-labs/FLUX.1-pro",
+              "black-forest-labs/FLUX-1.1-pro",
+              "Kwai-Kolors/Kolors",
+              "Qwen/Qwen-Image",
+              "Qwen/Qwen-Image-Edit-2509"
             ],
             "default": "black-forest-labs/FLUX.1-schnell"
           },
           "prompt": {
             "type": "string",
-            "description": "用于生成图片的文本描述",
-            "minLength": 1
+            "description": "提示词内容。描述想要生成的图像内容（Flux 系列模型建议使用详细的英文描述，Kolors 建议使用中文）。"
           },
           "negative_prompt": {
             "type": "string",
-            "description": "负向提示，用于排除不希望出现的图像元素"
+            "description": "负向提示词。描述你不希望出现在图像中的内容。"
           },
           "image_size": {
             "type": "string",
-            "description": "图像的尺寸大小，格式为宽x高",
+            "description": "图像尺寸 (宽x高)。Kolors 推荐：1024x1024, 768x1024, 1024x768。Qwen 推荐：1328x1328, 1664x928。",
             "enum": [
               "1024x1024",
               "960x1280",
               "768x1024",
               "720x1440",
-              "720x1280"
+              "720x1280",
+              "1280x960",
+              "1024x768",
+              "1440x720",
+              "1280x720",
+              "1328x1328",
+              "1664x928",
+              "928x1664",
+              "1472x1140",
+              "1140x1472"
             ],
             "default": "1024x1024"
           },
+          "batch_size": {
+            "type": "string",
+            "description": "单次请求生成的图像数量 (1-4)。",
+            "enum": ["1", "2", "3", "4"],
+            "default": "1"
+          },
           "seed": {
             "type": "integer",
-            "description": "随机数种子，用于控制生成图像的随机性",
-            "minimum": 1,
-            "maximum": 9999999999
+            "description": "随机种子。设置固定整数值以重现特定的生成结果。"
           },
           "num_inference_steps": {
             "type": "integer",
-            "description": "推理步数，控制生成的图像与提示的匹配程度，范围为1-50",
-            "minimum": 1,
-            "maximum": 50,
+            "description": "推理步数 (1-100)。步数越高通常质量越好但耗时更长。",
             "default": 20
+          },
+          "guidance_scale": {
+            "type": "number",
+            "description": "提示词遵循度 (CFG Scale)。通常建议在 5.0 - 7.5 之间。",
+            "default": 7.5
+          },
+          "prompt_extension": {
+            "type": "boolean",
+            "description": "是否开启提示词自动扩写（仅部分模型支持）。",
+            "default": false
+          },
+          "image": {
+            "type": "string",
+            "description": "参考图 URL 或 Base64 字符串。用于图生图或图像编辑。"
           }
         },
-        "required": ["prompt", "model", "image_size"]
+        "required": ["prompt", "model"]
       }
     }
   ],
   "meta": {
-    "avatar": "🎨",
-    "description": "此插件使用SiliconFlow的图像生成API，根据文本提示生成高质量图像。",
-    "tags": ["图片", "生成", "FLUX", "SiliconFlow"],
-    "title": "SiliconFlow 图像生成器"
+    "avatar": "🚀",
+    "description": "集成 SiliconFlow 顶尖开源模型库，支持 FLUX, 可图 (Kolors) 等超强生图模型，提供专业的参数微调能力。",
+    "tags": ["image", "generator", "flux", "kolors", "siliconflow", "sdxl"],
+    "title": "SiliconFlow 顶级模型生成"
   },
   "settings": {
     "type": "object",
     "required": ["SILICONFLOW_API_KEY"],
     "properties": {
-      "SILICONFLOW_API_KEY": {
-        "type": "string",
-        "title": "SiliconFlow API 令牌",
-        "description": "用于调用SiliconFlow图像生成API的Bearer Token"
+      "SILICONFLOW_API_KEY": { 
+        "type": "string", 
+        "title": "API Key",
+        "description": "从硅基流动控制台获取的 API Key。"
       }
     }
   },
-  "version": "1",
-  "systemRole": "此插件使用SiliconFlow的图像生成API，根据文本提示生成图像。注意：生成的图像URL有效期为1小时，请及时保存。"
+  "version": "3"
 }

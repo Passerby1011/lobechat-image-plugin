@@ -4,6 +4,7 @@ import { siliconflowHandler } from './siliconflow/handler';
 import { tongyiHandler } from './tongyi/handler';
 import { hunyuanHandler } from './hunyuan/handler';
 import { zhipuHandler } from './zhipu/handler';
+import { doubaoHandler } from './doubao/handler';
 
 /**
  * 插件注册中心
@@ -15,4 +16,5 @@ export const pluginRegistry: PluginRegistry = {
   'tongyi-image': tongyiHandler,
   'tencent-hunyuan-image': hunyuanHandler,
   'zhipuai-image': zhipuHandler,
+  'doubao-image': doubaoHandler,
 };

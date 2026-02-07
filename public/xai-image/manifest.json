@@ -43,10 +43,7 @@
     "type": "object",
     "required": ["XAI_API_KEY"],
     "properties": {
-      "XAI_API_KEY": {
-        "type": "string",
-        "title": "xAI API Key"
-      }
+      "XAI_API_KEY": { "type": "string", "title": "API Key" }
     }
   },
   "version": "1"

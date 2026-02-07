@@ -1,51 +1,61 @@
 {
-  "identifier": "tencent-hunyuan-image",
+  "schema_version": 1,
+  "name": "tencent-hunyuan-image",
+  "description": "腾讯混元大模型官方图片生成插件，提供高质量、极速的生图能力。",
+  "auth": {
+    "type": "none"
+  },
   "api": [
     {
-      "url": "https://lobechat-image-plugin-eight.vercel.app/api/tencent-hunyuan-image/generate",
-      "name": "generateImage",
-      "description": "使用腾讯混元大模型，根据文本提示生成图片",
+      "id": "generate",
+      "name": "tencent-hunyuan-image",
+      "description": "生成腾讯混元生图图片",
       "parameters": {
         "type": "object",
         "properties": {
           "Prompt": {
             "type": "string",
-            "description": "文本描述，推荐使用中文",
-            "minLength": 1
+            "description": "对要生成的图像内容的描述。支持中英文。最多支持2000个字符。"
           },
           "NegativePrompt": {
             "type": "string",
-            "description": "反向提示词"
-          },
-          "Style": {
-            "type": "string",
-            "description": "绘画风格",
-            "enum": ["riman", "shuimo", "monai", "bianping", "xiangsu", "ertonghuiben", "3dxuanran", "manhua", "heibaimanhua", "xieshi", "dongman", "bijiasuo", "saibopengke", "youhua", "masaike", "qinghuaci", "xinnianjianzhi", "xinnianhuayi"]
+            "description": "反向提示词，用于指定图像中不希望出现的内容。"
           },
           "Resolution": {
             "type": "string",
-            "description": "生成图分辨率",
-            "enum": ["768:768", "768:1024", "1024:768", "1024:1024", "720:1280", "1280:720", "768:1280", "1280:768"],
+            "description": "图像分辨率比例。支持 '1024:1024' (1:1), '768:1024' (3:4), '1024:768' (4:3), '720:1280' (9:16), '1280:720' (16:9)。",
+            "enum": ["1024:1024", "768:1024", "1024:768", "720:1280", "1280:720"],
             "default": "1024:1024"
+          },
+          "Seed": {
+            "type": "integer",
+            "description": "随机种子，用于控制生成图像的多样性。范围为 0-2147483647。"
+          },
+          "LogoAdd": {
+            "type": "string",
+            "description": "是否添加水印标识。'1':添加，'0':不添加。默认 '0'。",
+            "enum": ["0", "1"],
+            "default": "0"
           }
         },
         "required": ["Prompt"]
       }
     }
   ],
-  "meta": {
-    "avatar": "🎨",
-    "description": "腾讯混元大模型图片生成器",
-    "tags": ["图片", "生成", "混元", "腾讯"],
-    "title": "腾讯混元大模型图片生成器"
-  },
   "settings": {
     "type": "object",
-    "required": ["TENCENT_SECRET_ID", "TENCENT_SECRET_KEY"],
     "properties": {
-      "TENCENT_SECRET_ID": { "type": "string", "title": "Secret ID" },
-      "TENCENT_SECRET_KEY": { "type": "string", "title": "Secret Key" }
-    }
-  },
-  "version": "1"
+      "TENCENT_SECRET_ID": {
+        "type": "string",
+        "description": "腾讯云 API Secret ID",
+        "format": "password"
+      },
+      "TENCENT_SECRET_KEY": {
+        "type": "string",
+        "description": "腾讯云 API Secret Key",
+        "format": "password"
+      }
+    },
+    "required": ["TENCENT_SECRET_ID", "TENCENT_SECRET_KEY"]
+  }
 }
