@@ -100,6 +100,20 @@ export async function POST(req: NextRequest) {
     // 处理 JSON-RPC 请求
     const { method, params, id } = body;
 
+    // 处理通知类消息（notifications）- 不需要返回响应
+    // MCP 协议中通知消息没有 id 字段
+    if (method && method.startsWith('notifications/')) {
+      // 通知消息：notifications/initialized, notifications/cancelled 等
+      // 直接返回空响应，状态码 202 Accepted
+      console.log(`[MCP HTTP] Received notification: ${method}`);
+      return new NextResponse(null, { 
+        status: 202,
+        headers: {
+          [SESSION_HEADER]: sessionId || '',
+        },
+      });
+    }
+
     // 初始化请求 - 创建新会话
     if (method === 'initialize') {
       const newSessionId = randomUUID();
